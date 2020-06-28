@@ -26,12 +26,6 @@ class BaseModel():
             self.updated_at = self.created_at
             models.storage.new(self)
             models.storage.save()
-            # if key == 'updated_at' and value is not str:
-            # value = datetime.strptime#(value,
-            # '%Y-%m-%dT%H:%M:%S.%f')
-            # if key == 'created_at' and value is not str:
-            # value = datetime.strptime#(value,
-            # '%Y-%m-%dT%H:%M:%S.%f')
 
     def __str__(self):
         """ It will return the information of the class object"""
@@ -58,8 +52,3 @@ class BaseModel():
                 new_dict["updated_at"] = new_dict["updated_at"]
         new_dict['__class__'] = self.__class__.__name__
         return new_dict
-
-# self.__dict__['__class__'] = #self.__class__.__name__
-# self.__dict__['created_at'] = self.created_at.isoformat()
-# self.__dict__['updated_at'] = #self.updated_at.isoformat()
-# return self.__dict__
