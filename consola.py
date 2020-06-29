@@ -2,7 +2,7 @@
 """ Is where the console will be execute
 The main library it will execute the main class"""
 
-from cmd import Cmd
+
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -12,6 +12,8 @@ from models.amenity import Amenity
 from models.review import Review
 from models import storage
 import sys
+from cmd import Cmd
+import json
 
 
 class HBNBCommand(Cmd):
@@ -36,8 +38,68 @@ class HBNBCommand(Cmd):
         """ Is for help to thought the console"""
         print("To exit put the commands: quit or CTRL + D")
 
+    def do_count(self, classes):
+        """ Is the function to count how many classes are in the json """
+        counter = 0
+        for key in storage.all().keys():
+            # para partir la clave y ver cuantas clases hay
+            if classes == key.split('.')[0]:
+                counter += 1
+        print(counter)
+
+    @staticmethod
+    def exc_update(args):
+        # City.update("ebaba456-170d-4ab8-8cc8-e323cd8d81b6", {'first_name': "John", "age": 89})
+        # update BaseModel 49faff9a-6318-451f-87b6-910505c55907 first_name "Betty"
+        # classname id <attribute name> "<attribute value>"
+        try:
+            print(args)
+            # dictionary = json.loads(args[1].replace("'", "\""))
+            f = 10
+            print(f)
+        except json.decoder.JSONDecodeError:
+            pass
+        # print(args[1].replace("'", "\""))
+        # return dictionary
+
     def default(self, inp):
-        """ Is for check the exit status """
+        """ Is for check the exit status and others commands"""
+        # parcea el argumento
+        args = inp.split('.')
+        # mira si el argumento coincide con las clases
+        if args[0] in self.classes:
+            # mira si hay algo despues del punto, args ya esta con split
+            if len(args) > 1:
+                # obtener el nombre de la clase
+                class_arg = args[0]
+                # quitarle los parentecis () al City.all()
+                args = args[1].split('(', 1)
+                commands = {'all': self.do_all, 'count': self.do_count,
+                            'show': self.do_show, 'destroy': self.do_destroy,
+                            'update': self.exc_update}
+                # recibe el tipo de comando
+                command = args[0]
+                if command in commands:
+                    # se hace el try por si solo pasan City.all
+                    try:
+                        # le hago split para recibir la ID y no recibirla "",
+                        # mandarle el y con errores
+                        arguments = args[1][:-1].split(', ', 1)
+
+                        # mira si son estas dos opciones solo para mandar
+                        # nombre de la clase
+                        if command in ('count', 'all'):
+                            commands[command](class_arg)
+                        else:
+                            # completa el argumento cuando es
+                            # City.show( id, demas, demas)
+                            arguments = class_arg + ' ' + arguments[0][1:-1]\
+                                        + ' '.join(arguments[1:])
+                            # ejecuta el comando dentro del diccionario
+                            commands[command](arguments)
+                    except IndexError:
+                        pass
+
         if inp == 'quit':
             return self.do_quit(inp)
 
@@ -47,7 +109,7 @@ class HBNBCommand(Cmd):
         if len(kika) == 0:
             print([str(v) for v in storage.all().values()])
 
-        elif not kika in self.classes:
+        elif kika not in self.classes:
             print('** class doesn\'t exist **')
         else:
             print([str(v) for k, v in storage.all().items() if kika in k])
@@ -78,8 +140,9 @@ class HBNBCommand(Cmd):
             print('** class name missing **')
 
     def do_show(self, inp):
-        """is the commnad to show the representation of an
-        instance based on the class name"""
+        """ is the commnad to show the representation of an
+        instance based on the class name """
+
         # si no pasan nada imprime misisng
         if len(inp) != 0:
             # aca mira si es igual a Base Model
@@ -114,7 +177,7 @@ class HBNBCommand(Cmd):
                 else:
                     line = line.split()
                     obje_id = line[0] + '.' + line[1]
-                    if not obje_id in storage.all():
+                    if obje_id not in storage.all():
                         print('** no instance found **')
                     else:
                         del storage.all()[obje_id]
@@ -135,7 +198,10 @@ class HBNBCommand(Cmd):
                             if len(args) <= 3:
                                 print('** value missing **')
                             else:
-                                setattr(storage.all()[key], args[2], args[3][1:-1])
+                                setattr(
+                                    storage.all()[key],
+                                    args[2],
+                                    args[3][1:-1])
                                 storage.all()[key].save()
                         else:
                             print('** attribute name missing **')
