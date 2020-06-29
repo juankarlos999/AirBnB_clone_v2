@@ -2,7 +2,6 @@
 """ Is where the console will be execute
 The main library it will execute the main class"""
 
-
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -47,21 +46,6 @@ class HBNBCommand(Cmd):
                 counter += 1
         print(counter)
 
-    @staticmethod
-    def exc_update(args):
-        # City.update("ebaba456-170d-4ab8-8cc8-e323cd8d81b6", {'first_name': "John", "age": 89})
-        # update BaseModel 49faff9a-6318-451f-87b6-910505c55907 first_name "Betty"
-        # classname id <attribute name> "<attribute value>"
-        try:
-            print(args)
-            # dictionary = json.loads(args[1].replace("'", "\""))
-            f = 10
-            print(f)
-        except json.decoder.JSONDecodeError:
-            pass
-        # print(args[1].replace("'", "\""))
-        # return dictionary
-
     def default(self, inp):
         """ Is for check the exit status and others commands"""
         # parcea el argumento
@@ -84,24 +68,50 @@ class HBNBCommand(Cmd):
                     try:
                         # le hago split para recibir la ID y no recibirla "",
                         # mandarle el y con errores
-                        arguments = args[1][:-1].split(', ', 1)
-
+                        arguments = args[1][:-1].split(',', 1)
                         # mira si son estas dos opciones solo para mandar
                         # nombre de la clase
                         if command in ('count', 'all'):
                             commands[command](class_arg)
                         else:
-                            # completa el argumento cuando es
-                            # City.show( id, demas, demas)
-                            arguments = class_arg + ' ' + arguments[0][1:-1]\
-                                        + ' '.join(arguments[1:])
-                            # ejecuta el comando dentro del diccionario
+                            # this is for quitar los "" en el id
+                            arguments[0] = arguments[0].replace('"', '', 2)
+                            # unir los argumentos porque son una lista
+                            arguments = class_arg + " " + ''.join(arguments)
                             commands[command](arguments)
                     except IndexError:
                         pass
 
         if inp == 'quit':
             return self.do_quit(inp)
+
+    def exc_update(self, args):
+        """ This function excute the command update"""
+        # City.update("ebaba456-170d-4ab8-8cc8-e323cd8d81b6", {'first_name': "John", "age": 89})
+        # update BaseModel 49faff9a-6318-451f-87b6-910505c55907 first_name "Betty"
+        # classname id <attribute name> "<attribute value>"
+
+        # hace un split hasta la id para recibir los argumentos
+        args = args.split(' ', 2)
+        # quitarle todos los elementos de un dictionario para convertirlo en string
+        for char in ["'", "\"", ",", "{", "}", ":"]:
+            if char in args[2]:
+                args[2] = args[2].replace(char, "")
+
+        # parsear los argumentos
+        args[2] = args[2].split()
+        instances = []
+        # convertirlos en una lista y poderlos mandarlos a ejecutarse por orden
+        for word in range(0, len(args[2]), 2):
+            args[2][word + 1] = "\"" + args[2][word + 1] + "\""
+            instances.append(args[2][word] + ' ' + args[2][word + 1])
+
+        for instance in instances:
+            # ['City', 'ebaba456-170d-4ab8-8cc8-e323cd8d81b6', ['first_name', '"John"']]
+            self.do_update(args[0] + ' ' + args[1] + ' ' + instance)
+
+        # print(args[1].replace("'", "\""))
+        # return dictionary
 
     def do_all(self, kika):
         """Prints all string representation of all instances based or not
@@ -142,12 +152,11 @@ class HBNBCommand(Cmd):
     def do_show(self, inp):
         """ is the commnad to show the representation of an
         instance based on the class name """
-
         # si no pasan nada imprime misisng
         if len(inp) != 0:
             # aca mira si es igual a Base Model
             if inp.split()[0] in self.classes:
-                if len(inp.split()) == 2:
+                if len(inp.split()) > 2:
                     # This is for make the class.id
                     key = inp.split()[0] + '.' + inp.split()[1]
                     if key in storage.all():
@@ -172,7 +181,7 @@ class HBNBCommand(Cmd):
             if not line.split()[0] in self.classes:
                 print('** class doesn\'t exist **')
             else:
-                if len(line.split()) != 2:
+                if len(line.split()) < 2:
                     print('** instance id missing **')
                 else:
                     line = line.split()
