@@ -17,7 +17,7 @@ import json
 
 class HBNBCommand(Cmd):
     """contains the entry point of the command interpreter"""
-    prompt = '(hbnb) '
+    prompt = '(hbnb) ' + '\n'
     classes = ('User', 'BaseModel', 'State', 'Place', 'City',
                'Amenity', 'Review')
 
