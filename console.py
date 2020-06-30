@@ -31,6 +31,7 @@ class HBNBCommand(Cmd):
 
     def do_EOF(self, input):
         """ Is the function it will exit the program """
+        print()
         return True
 
     def help_quit(self, input):
