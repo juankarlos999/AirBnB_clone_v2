@@ -149,6 +149,7 @@ class HBNBCommand(Cmd):
                 elif inp == 'Review':
                     new_inst = Review()
                 print(new_inst.id)
+                new_inst.save()
             else:
                 print('** class doesn\'t exist **')
         else:
