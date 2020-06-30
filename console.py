@@ -20,8 +20,7 @@ class HBNBCommand(Cmd):
     if sys.stdin.isatty():
         prompt = '(hbnb) '
     else:
-        prompt = '(hbnb) ' + '\n'
-
+        prompt = '(hbnb)' + '\n'
     classes = ('User', 'BaseModel', 'State', 'Place', 'City',
                'Amenity', 'Review')
 
@@ -229,8 +228,4 @@ class HBNBCommand(Cmd):
 
 
 if __name__ == '__main__':
-    try:
-        # this is for avoid the ctrl + C
-        HBNBCommand().cmdloop()
-    except KeyboardInterrupt:
-        sys.exit(0)
+    HBNBCommand().cmdloop()

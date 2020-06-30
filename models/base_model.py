@@ -4,33 +4,39 @@ import uuid
 from datetime import datetime
 import models
 
-time = '%Y-%m-%dT%H:%M:%S.%f'
-
 
 class BaseModel():
     """ Is the main class """
+
+    time = '%Y-%m-%dT%H:%M:%S.%f'
 
     def __init__(self, *args, **kwargs):
         """ is where the instacne Attribute is init"""
         if kwargs:
             for key, value in kwargs.items():
                 if key != "__class__":
+                    if (key == "updated_at" or key == "created_at"):
+                        value = datetime.strptime(value, self.time)
                     setattr(self, key, value)
-            if hasattr(self, "created_at") and type(self.created_at) is str:
-                self.created_at = datetime.strptime(kwargs["created_at"], time)
-            if hasattr(self, "updated_at") and type(self.updated_at) is str:
-                self.updated_at = datetime.strptime(kwargs["updated_at"], time)
+
+        # if hasattr(self, "created_at") and type(self.created_at) is str:
+        #     self.created_at =
+        #   datetime.strptime(kwargs["created_at"], self.time)
+        # if hasattr(self, "updated_at") and type(self.updated_at) is str:
+        #     self.updated_at =
+        #   datetime.strptime(kwargs["updated_at"], self.time)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = self.created_at
             models.storage.new(self)
-            models.storage.save()
 
     def __str__(self):
         """ It will return the information of the class object"""
-        return ("[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
-                                          self.__dict__))
+        return "[{:s}] ({:s}) {}".format(
+            self.__class__.__name__,
+            self.id,
+            self.__dict__)
 
     def save(self):
         """ It will update the data time of the current directory """
@@ -39,16 +45,9 @@ class BaseModel():
 
     def to_dict(self):
         """ It will return a dictionary """
-        new_dict = self.__dict__
-        if 'created_at' in new_dict:
-            if type(new_dict["created_at"]) is not str:
-                new_dict["created_at"] = new_dict["created_at"].strftime(time)
-            else:
-                new_dict["created_at"] = new_dict["created_at"]
-        if 'updated_at' in new_dict:
-            if type(new_dict["updated_at"]) is not str:
-                new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
-            else:
-                new_dict["updated_at"] = new_dict["updated_at"]
-        new_dict['__class__'] = self.__class__.__name__
+        # hace una nueva copia del dictionario
+        new_dict = {**self.__dict__}
+        new_dict["created_at"] = self.created_at.isoformat()
+        new_dict["updated_at"] = self.updated_at.isoformat()
+        new_dict["__class__"] = self.__class__.__name__
         return new_dict
