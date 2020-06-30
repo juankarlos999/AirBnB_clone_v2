@@ -60,4 +60,3 @@ class TestReview(unittest.TestCase):
         self.assertTrue(time != instancia.updated_at)
         self.assertTrue(type(instancia.__str__()) is str)
         self.assertTrue(type(instancia.to_dict()) is dict)
-

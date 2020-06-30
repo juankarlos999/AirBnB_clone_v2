@@ -136,7 +136,8 @@ class TestBaseClass(unittest.TestCase):
 
         # self.assertTrue(type(my_model.created_at) == type(datetime.now()))
         # self.assertEqual(type(BaseModel().created_at), type(datetime.now()))
-        # self.assertTrue(isinstance(type(BaseModel().updated_at), type(datetime.now())))
+        # self.assertTrue(
+        # isinstance(type(BaseModel().updated_at), type(datetime.now())))
         # self.assertEqual(type(BaseModel().updated_at), type(datetime.now()))
 
     def test_time(self):

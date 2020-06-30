@@ -31,6 +31,7 @@ class HBNBCommand(Cmd):
 
     def do_EOF(self, input):
         """ Is the function it will exit the program """
+        print()
         return True
 
     def help_quit(self, input):
@@ -90,13 +91,11 @@ class HBNBCommand(Cmd):
 
     def exc_update(self, args):
         """ This function excute the command update"""
-        # City.update("ebaba456-170d-4ab8-8cc8-e323cd8d81b6", {'first_name': "John", "age": 89})
-        # update BaseModel 49faff9a-6318-451f-87b6-910505c55907 first_name "Betty"
-        # classname id <attribute name> "<attribute value>"
 
         # hace un split hasta la id para recibir los argumentos
         args = args.split(' ', 2)
-        # quitarle todos los elementos de un dictionario para convertirlo en string
+        # quitarle todos los elementos de un dictionario para
+        # convertirlo en string
         for char in ["'", "\"", ",", "{", "}", ":"]:
             if char in args[2]:
                 args[2] = args[2].replace(char, "")
@@ -110,7 +109,6 @@ class HBNBCommand(Cmd):
             instances.append(args[2][word] + ' ' + args[2][word + 1])
 
         for instance in instances:
-            # ['City', 'ebaba456-170d-4ab8-8cc8-e323cd8d81b6', ['first_name', '"John"']]
             self.do_update(args[0] + ' ' + args[1] + ' ' + instance)
             storage.save()
 
