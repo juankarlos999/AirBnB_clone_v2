@@ -228,8 +228,4 @@ class HBNBCommand(Cmd):
 
 
 if __name__ == '__main__':
-    try:
-        # this is for avoid the ctrl + C
-        HBNBCommand().cmdloop()
-    except KeyboardInterrupt:
-        sys.exit(0)
+    HBNBCommand().cmdloop()
