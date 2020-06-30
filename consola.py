@@ -69,6 +69,7 @@ class HBNBCommand(Cmd):
                         # le hago split para recibir la ID y no recibirla "",
                         # mandarle el y con errores
                         arguments = args[1][:-1].split(',', 1)
+
                         # mira si son estas dos opciones solo para mandar
                         # nombre de la clase
                         if command in ('count', 'all'):
@@ -76,8 +77,10 @@ class HBNBCommand(Cmd):
                         else:
                             # this is for quitar los "" en el id
                             arguments[0] = arguments[0].replace('"', '', 2)
+                            # print(arguments)
                             # unir los argumentos porque son una lista
                             arguments = class_arg + " " + ''.join(arguments)
+                            # print(arguments)
                             commands[command](arguments)
                     except IndexError:
                         pass
@@ -109,6 +112,7 @@ class HBNBCommand(Cmd):
         for instance in instances:
             # ['City', 'ebaba456-170d-4ab8-8cc8-e323cd8d81b6', ['first_name', '"John"']]
             self.do_update(args[0] + ' ' + args[1] + ' ' + instance)
+            storage.save()
 
         # print(args[1].replace("'", "\""))
         # return dictionary
@@ -156,7 +160,7 @@ class HBNBCommand(Cmd):
         if len(inp) != 0:
             # aca mira si es igual a Base Model
             if inp.split()[0] in self.classes:
-                if len(inp.split()) > 2:
+                if len(inp.split()) >= 2:
                     # This is for make the class.id
                     key = inp.split()[0] + '.' + inp.split()[1]
                     if key in storage.all():
