@@ -1,8 +1,8 @@
-#!usr/bin/python3
+#!/usr/bin/env python3
 """ This is the main class """
 import uuid
 from datetime import datetime
-import models
+from models import storage
 
 
 class BaseModel:
@@ -10,19 +10,18 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """ is where the instacne Attribute is init"""
-        time = '%Y-%m-%dT%H:%M:%S.%f'
-        if kwargs:
+        if kwargs or len(kwargs) > 0:
             for key, value in kwargs.items():
-                if (key in ("updated_at", "created_at")):
-                    value = datetime.strptime(value, time)
+                if (key == "created_at" or key == "updated_at"):
+                    value = datetime.strptime(
+                        value, '%Y-%m-%dT%H:%M:%S.%f')
                 if key != "__class__":
                     setattr(self, key, value)
-
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            models.storage.new(self)
+            storage.new(self)
 
     def __str__(self):
         """ It will return the information of the class object"""
@@ -34,7 +33,7 @@ class BaseModel:
     def save(self):
         """ It will update the data time of the current directory """
         self.updated_at = datetime.now()
-        models.storage.save()
+        storage.save()
 
     def to_dict(self):
         """ It will return a dictionary """

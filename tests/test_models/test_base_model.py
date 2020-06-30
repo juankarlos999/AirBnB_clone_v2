@@ -39,11 +39,11 @@ class TestBaseClass(unittest.TestCase):
     def test_updated0(self):
         """ This will test the variable update"""
         a = BaseModel()
-        self.assertNotEqual(type(a.updated_at), type(datetime.now()))
+        self.assertEqual(type(a.updated_at), type(datetime.now()))
 
     def test_updated1(self):
         """ This will test the variable update"""
-        self.assertTrue(type(BaseModel().updated_at) == str)
+        self.assertFalse(type(BaseModel().updated_at) == str)
 
     def test_save0(self):
         """check the erros in the method"""
@@ -69,8 +69,8 @@ class TestBaseClass(unittest.TestCase):
         self.assertEqual(new["__class__"], "BaseModel")
         self.assertEqual(type(new["created_at"]), str)
         self.assertEqual(type(new["updated_at"]), str)
-        self.assertEqual(new["created_at"], j.created_at)
-        self.assertEqual(new["updated_at"], j.updated_at)
+        self.assertNotEqual(new["created_at"], j.created_at)
+        self.assertNotEqual(new["updated_at"], j.updated_at)
 
     def test_insta(self):
         """ testing the models of the class """
@@ -92,8 +92,9 @@ class TestBaseClass(unittest.TestCase):
         inst2 = BaseModel()
         toc = datetime.now()
         # self.assertTrue(tic <= inst2.created_at <= toc)
-        self.assertEqual(inst1.created_at, inst1.updated_at)
-        self.assertEqual(inst2.created_at, inst2.updated_at)
+        # self.assertNotAlmostEqual(
+        #     inst1.created_at.isoformat(), inst1.updated_at.isoformat())
+        self.assertNotEqual(inst2.created_at, inst2.updated_at)
         self.assertNotEqual(inst1.created_at, inst2.created_at)
         self.assertNotEqual(inst1.updated_at, inst2.updated_at)
 
@@ -143,10 +144,5 @@ class TestBaseClass(unittest.TestCase):
     def test_time(self):
         """testing mode time"""
         model = BaseModel()
-        model.created_at = '2017-09-28T21:03:54.05230'
-        self.assertEqual(model.created_at, '2017-09-28T21:03:54.05230')
-        self.assertNotEqual(model.created_at, datetime.now().isoformat())
-        model.save()
-        self.assertNotEqual(model.created_at, datetime.now())
-        # self.assertEqual(model.updated_at, datetime.now().isoformat())
-        #  TODO
+        self.assertIsNotNone(model.updated_at)
+        self.assertNotEqual(model.updated_at, datetime.now())
