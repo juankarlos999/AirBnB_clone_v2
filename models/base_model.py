@@ -8,14 +8,13 @@ import models
 class BaseModel:
     """ Is the main class """
 
-    time = '%Y-%m-%dT%H:%M:%S.%f'
-
     def __init__(self, *args, **kwargs):
         """ is where the instacne Attribute is init"""
+        time = '%Y-%m-%dT%H:%M:%S.%f'
         if kwargs:
             for key, value in kwargs.items():
                 if (key in ("updated_at", "created_at")):
-                    value = datetime.strptime(value, self.time)
+                    value = datetime.strptime(value, time)
                 if key != "__class__":
                     setattr(self, key, value)
 
