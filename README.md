@@ -49,7 +49,7 @@ The following commands will be executed and the result will be saved in the `fil
 
 | COMAND | SYNTAXIS | FUNCTION |
 | ------ | ------ | ----- |
-| create | **create <class name>** |  Creates a new instance of class, saves it (to the JSON file) and prints the id |
+| create |  **create <class name>** |  Creates a new instance of class, saves it (to the JSON file) and prints the id |
 | show | **update <class name> <id>** or **<class name>.show(<id>)** | Prints the string representation of an instance based on the class name and id |
 | destroy | **update <class name> <id>** or **<class name>.destroy(<id>)** | Deletes an instance based on the class name and id |
 | all | **all <class name>**  or **all** or **<class name>.all()** | Prints all string representation of all instances based or not on the class name. |
@@ -66,8 +66,8 @@ python3 -m unittest discover tests
 All the tests are in the test folder, if you have any suggestions, make a pull request
 
 authors ✒️
-Christian Campos - GitHub Andres reyes - GitHub
-[KUBERNETES.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md)
+Daniela - [GitHub](https://github.com/daniela2001-png) Andres reyes - [Web page](http://andresredev.co/)
+
 
 
 acknowledgements
