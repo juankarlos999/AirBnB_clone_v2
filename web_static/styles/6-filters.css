@@ -35,22 +35,28 @@
 
 .locations  .amenities{
      height: 100%;
-     width: 100%;
      padding-top: 100px;
 }
 
+.amenities .popover{
+     max-height: 70px;
+     font-size: 25px;
+}
 
-ul.popover {
-     margin-top: 1.5%;
-     padding: 7.3%;
 
+.popover {
      background-color: #FAFAFA;
+     max-height: 400px;
+     width: 13.8%;
+     padding-top: 30px;
      border: 1px solid #dddddd;
-
      display: none;
      position: absolute;
      z-index: 1;
+}
 
+ul.popover {
+     margin-top: 6px;
 }
 
 .popover h2 {
@@ -61,9 +67,7 @@ ul.popover {
      margin-bottom: 20%;
 }
 
-/* div.locations {
-     padding-right: 23%;
-} */
+
 
 .locations h3,  .amenities h3{
 
@@ -83,8 +87,13 @@ ul.popover {
      opacity: 90%;
 }
 
+.locations {
+     width: 50%;
+}
+
 .amenities {
      border-left: 1px solid  #DDDDDD;
+     width: 50%;
 }
 
 /* This is for the point in the list */
