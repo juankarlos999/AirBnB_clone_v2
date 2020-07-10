@@ -1,5 +1,7 @@
 # Airbnb
 The goal of the project is to deploy in the server a simple copy of the AirBnB website.
+![A image how works the console in non interactive](final.png)
+
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
