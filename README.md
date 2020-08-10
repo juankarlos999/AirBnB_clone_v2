@@ -1,4 +1,4 @@
-# Airbnb
+#Airbnb
 The goal of the project is to deploy in the server a simple copy of the AirBnB website.
 This repository contains the initial stage of a student project to build a clone of the AirBnB website. This stage implements a backend interface, or console, to manage program data. Console commands allow the user to create, update, and destroy objects, as well as manage file storage. Using a system of JSON serialization/deserialization, storage is persistent between sessions.
 ![A image how works the console in non interactive](final.png)
@@ -70,7 +70,7 @@ All the tests are in the test folder, if you have any suggestions, make a pull r
 
 authors ✒️
 Daniela - [GitHub](https://github.com/daniela2001-png) Andres reyes - [Web page](http://andresredev.co/)
-
+Juan Rengifo - [GitHub](https://github.com/juankarlos999)
 
 
 acknowledgements
