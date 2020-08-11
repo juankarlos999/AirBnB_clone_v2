@@ -117,21 +117,48 @@ class HBNBCommand(cmd.Cmd):
         """ Create an object of any class,
         to allow for object creation with given parameters"""
         # create <Class name> <param 1> <param 2> <param 3>...
-        parce_arg = args.split()
+        # split parameters into various arguments
+        args = args.split(' ', 1)
+
         if not args[0]:
             print("** class name missing **")
             return
-        print()
         if args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        #print(args)
-        #print(HBNBCommand.classes[args]())
-        #print(HBNBCommand.classes['City']())
-        #new_instance = HBNBCommand.classes[args]()
-        #storage.save()
-        #print(new_instance.id)
-        #storage.save()
+
+        become_dict = {}
+        storage.save()
+
+        for var in args[1].split():
+            # attr = ['city_id', '0001']
+            # attr = ['latitude', '37".773972']
+            attr = var.split('=')
+            if attr[1].replace('.','',1).isdigit():
+                if isinstance(attr[1], int):
+                    attr[1] = int(attr[1])
+                else:
+                    attr[1] = float(attr[1])
+            else:
+                attr[1] = attr[1] \
+                    .strip('"') \
+                    .replace('_', ' ') \
+                    .replace('"', '\"') \
+
+            become_dict[attr[0]] = attr[1]
+
+        # new_instance = HBNBCommand.classes[args[0]]()
+        # print(new_instance.id)
+        # new_instance.__dict__.update(**become_dict)
+
+        variable = eval("{}(**become_dict)".format(args[0]))
+        print(variable)
+        variable.save()
+        # storage.save()
+
+
+
+    # @static class
 
     def help_create(self):
         """ Help information for the create method """

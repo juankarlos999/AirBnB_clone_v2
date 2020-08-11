@@ -5,22 +5,32 @@ from datetime import datetime
 
 
 class BaseModel:
-    """A base class for all hbnb models"""
-    def __init__(self, *args, **kwargs):
-        """Instatntiates a new model"""
-        if not kwargs:
-            from models import storage
-            self.id = str(uuid.uuid4())
+    def _init_(self, **kwargs):
+        """
+        Method constructor with **kwargs
+        """
+        for key, value in kwargs.items():
+
+            if key == "_class_":
+                continue
+
+            if key in "created_at" or key in "updated_at":
+                value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+
+            if key not in "_class_":
+                setattr(self, key, value)
+
+        if "id" not in kwargs.keys():
+            self.id = str(uuid4())
+
+        if "created_at" not in kwargs.keys():
             self.created_at = datetime.now()
+
+        if "updated_at" not in kwargs.keys():
             self.updated_at = datetime.now()
+
+        if len(kwargs) == 0:
             storage.new(self)
-        else:
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            del kwargs['__class__']
-            self.__dict__.update(kwargs)
 
     def __str__(self):
         """Returns a string representation of the instance"""
