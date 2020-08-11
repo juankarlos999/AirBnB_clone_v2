@@ -3,38 +3,46 @@
 """
 from models.engine.file_storage import FileStorage
 from models.state import State
-from models.user import User
 
 fs = FileStorage()
 
+# All States
+all_states = fs.all(State)
+print("All States: {}".format(len(all_states.keys())))
+for state_key in all_states.keys():
+    print(all_states[state_key])
 
-# new_dict = {}
-# all_states = fs.all()
-# for value in all_states:
-#      # why in this not use isinstace?
-#      if State == type(all_states[value]):
-#           new_dict[value] = all_states[value]
-
-
-# print(new_dict)
-
-new_state = User()
-new_state.name = "Penc"
+# Create a new State
+new_state = State()
+new_state.name = "California"
 fs.new(new_state)
 fs.save()
+print("New State: {}".format(new_state))
 
-all_states = fs.all()
-print(all_states)
-print()
-print()
-for value in all_states:
-     if "User.0304ffa6-3e3f-4679-b262-83d46d7f8d84" == all_states[value]:
-          del(all_states[value])
-          fs.save()
-          break
+# All States
+all_states = fs.all(State)
+print("All States: {}".format(len(all_states.keys())))
+for state_key in all_states.keys():
+    print(all_states[state_key])
 
-print()
-print()
-print(all_states)
+# Create another State
+another_state = State()
+another_state.name = "Nevada"
+fs.new(another_state)
+fs.save()
+print("Another State: {}".format(another_state))
 
+# All States
+all_states = fs.all(State)
+print("All States: {}".format(len(all_states.keys())))
+for state_key in all_states.keys():
+    print(all_states[state_key])        
 
+# Delete the new State
+fs.delete(new_state)
+
+# All States
+all_states = fs.all(State)
+print("All States: {}".format(len(all_states.keys())))
+for state_key in all_states.keys():
+    print(all_states[state_key])

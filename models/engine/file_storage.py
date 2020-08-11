@@ -63,5 +63,5 @@ class FileStorage:
         for value in FileStorage.__objects:
             if obj == FileStorage.__objects[value]:
                 del(FileStorage.__objects[value])
-            self.save()
-            return
+                self.save()
+                return
