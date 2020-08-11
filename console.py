@@ -19,16 +19,16 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+        }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -113,6 +113,24 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
+    @staticmethod
+    def clean_output(argument):
+        """ This function is for clean the number or the string
+        it recive to save into dictionary
+        :return: the the varible recive and clean"""
+        if argument.replace('.', '', 1).isdigit():
+            if isinstance(argument, int):
+                argument = int(argument)
+            else:
+                argument = float(argument)
+        else:
+            argument = argument \
+                .strip('"') \
+                .replace('_', ' ') \
+                .replace('"', '\"') \
+
+        return argument
+
     def do_create(self, args):
         """ Create an object of any class,
         to allow for object creation with given parameters"""
@@ -134,18 +152,7 @@ class HBNBCommand(cmd.Cmd):
             # attr = ['city_id', '0001']
             # attr = ['latitude', '37".773972']
             attr = var.split('=')
-            if attr[1].replace('.','',1).isdigit():
-                if isinstance(attr[1], int):
-                    attr[1] = int(attr[1])
-                else:
-                    attr[1] = float(attr[1])
-            else:
-                attr[1] = attr[1] \
-                    .strip('"') \
-                    .replace('_', ' ') \
-                    .replace('"', '\"') \
-
-            become_dict[attr[0]] = attr[1]
+            become_dict[attr[0]] = HBNBCommand.clean_output(args[1])
 
         new_instance = HBNBCommand.classes[args[0]]()
         print(new_instance.id)
@@ -155,10 +162,6 @@ class HBNBCommand(cmd.Cmd):
         # variable = eval("{}(**become_dict)".format(args[0]))
         # print(variable)
         # variable.save()
-
-
-
-    # @static class
 
     def help_create(self):
         """ Help information for the create method """
