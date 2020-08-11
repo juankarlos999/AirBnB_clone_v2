@@ -1,5 +1,13 @@
 #!/usr/bin/python3
-""" """
+"""
+Contains the TestCity class
+"""
+
+from datetime import datetime
+from models import city
+from models.base_model import BaseModel
+import unittest
+City = city.City
 from tests.test_models.test_base_model import test_basemodel
 from models.city import City
 

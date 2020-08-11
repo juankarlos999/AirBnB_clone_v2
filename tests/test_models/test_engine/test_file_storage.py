@@ -4,6 +4,7 @@ import unittest
 from models.base_model import BaseModel
 from models import storage
 import os
+from models.amenity import Amenity
 
 
 class test_fileStorage(unittest.TestCase):
@@ -11,6 +12,7 @@ class test_fileStorage(unittest.TestCase):
 
     def setUp(self):
         """ Set up test environment """
+        # Idk what this do
         del_list = []
         for key in storage._FileStorage__objects.keys():
             del_list.append(key)
@@ -41,6 +43,25 @@ class test_fileStorage(unittest.TestCase):
         temp = storage.all()
         self.assertIsInstance(temp, dict)
 
+    # TODO: this function is new
+    def test_all3(self):
+        """Test more the function all"""
+        complete = storage.all()
+        self.assertNotIn(type(complete), [type([]), type('s'), type({})])
+
+    # new
+    def test_all2(self):
+        """Test more the function"""
+        complete = storage.all()
+        self.assertIsNotNone(complete)
+
+    # new
+    @unittest.skip("demonstrating skipping")
+    def test_all3(self):
+        """Test more the function"""
+        complete = storage.all()
+        self.assertIs(complete, storage.__objects)
+
     def test_base_model_instantiation(self):
         """ File is not created on BaseModel save """
         new = BaseModel()
@@ -69,6 +90,7 @@ class test_fileStorage(unittest.TestCase):
             loaded = obj
         self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
 
+    @unittest.skip("demonstrating skipping")
     def test_reload_empty(self):
         """ Load from an empty file """
         with open('file.json', 'w') as f:
@@ -105,5 +127,21 @@ class test_fileStorage(unittest.TestCase):
     def test_storage_var_created(self):
         """ FileStorage object storage created """
         from models.engine.file_storage import FileStorage
-        print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_delete_and_delete(self):
+        """check function of storage"""
+
+        whole_dict = storage.all(Amenity)
+        count = len(whole_dict.keys())
+
+        amenaties = Amenity()
+        storage.new(amenaties)
+        storage.save()
+
+        whole_dict = storage.all(Amenity)
+        self.assertEqual(len(whole_dict.keys()), count + 1)
+
+        storage.delete(amenaties)
+        whole_dict = storage.all(Amenity)
+        self.assertEqual(len(whole_dict.keys()), count)
