@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-""" Is a class """
+""" State Module for HBNB project """
 from models.base_model import BaseModel
 
 
 class Amenity(BaseModel):
-    """Representation of Amenity """
     name = ""

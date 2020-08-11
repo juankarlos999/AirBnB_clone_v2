@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-""" Is a class """
+""" State Module for HBNB project """
 from models.base_model import BaseModel
 
 
 class State(BaseModel):
-    """class that inhernt"""
-    name = ''
+    """ State class """
+    name = ""
