@@ -148,11 +148,14 @@ class HBNBCommand(cmd.Cmd):
         become_dict = {}
         storage.save()
 
-        for var in args[1].split():
-            # attr = ['city_id', '0001']
-            # attr = ['latitude', '37".773972']
-            attr = var.split('=')
-            become_dict[attr[0]] = HBNBCommand.clean_output(args[1])
+        # Check if the are arguments
+        # conditional to avoid error out of index
+        if len(args) == 2:
+            # split the arguments and get this var = ['city_id', '0001']
+            for var in args[1].split():
+                attr = var.split('=')
+                # clean output clean the value of the dictionary
+                become_dict[attr[0]] = HBNBCommand.clean_output(attr[1])
 
         new_instance = HBNBCommand.classes[args[0]]()
         print(new_instance.id)

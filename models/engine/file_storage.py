@@ -8,8 +8,15 @@ class FileStorage:
     __file_path = 'file.json'
     __objects = {}
 
-    def all(self):
+    def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
+        if cls:
+            new_dict = {}
+            for value in FileStorage.__objects:
+                # why in this not use isinstace?
+                if cls == type(FileStorage.__objects[value]):
+                    new_dict[value] = FileStorage.__objects[value]
+            return new_dict
         return FileStorage.__objects
 
     def new(self, obj):
@@ -50,3 +57,11 @@ class FileStorage:
 
         except FileNotFoundError:
             pass
+
+    def delete(self, obj=None):
+        """ This is for to delete obj from __objects if it’s inside """
+        for value in FileStorage.__objects:
+            if obj == FileStorage.__objects[value]:
+                del(FileStorage.__objects[value])
+            self.save()
+            return
