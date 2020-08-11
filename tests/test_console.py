@@ -2,8 +2,8 @@
 """Test for console"""
 import unittest
 import pep8
-import tests
 from console import HBNBCommand
+
 
 class TestConsole(unittest.TestCase):
     """this will test the console"""
