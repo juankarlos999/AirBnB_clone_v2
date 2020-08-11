@@ -147,14 +147,14 @@ class HBNBCommand(cmd.Cmd):
 
             become_dict[attr[0]] = attr[1]
 
-        # new_instance = HBNBCommand.classes[args[0]]()
-        # print(new_instance.id)
-        # new_instance.__dict__.update(**become_dict)
+        new_instance = HBNBCommand.classes[args[0]]()
+        print(new_instance.id)
+        new_instance.__dict__.update(**become_dict)
+        storage.save()
 
-        variable = eval("{}(**become_dict)".format(args[0]))
-        print(variable)
-        variable.save()
-        # storage.save()
+        # variable = eval("{}(**become_dict)".format(args[0]))
+        # print(variable)
+        # variable.save()
 
 
 
