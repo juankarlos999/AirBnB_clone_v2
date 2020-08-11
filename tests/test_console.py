@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 """Test for console"""
+
 import unittest
 import pep8
+from io import StringIO
+from unittest.mock import patch
 from console import HBNBCommand
 
 
@@ -10,7 +13,7 @@ class TestConsole(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        """setup test"""
+        """Setup test"""
         cls.consol = HBNBCommand()
 
     def test_pep8_conformance(self):
@@ -18,6 +21,12 @@ class TestConsole(unittest.TestCase):
         pep8style = pep8.StyleGuide(quiet=True)
         result = pep8style.check_files(['console.py'])
         self.assertEqual(result.total_errors, 0, 'fix Pep8')
+
+    def test_emptyline(self):
+        """Test empty line input console"""
+        with patch('sys.stdout', new=StringIO()) as mock_consol:
+            self.consol.onecmd("\n")
+            self.assertEqual('', mock_consol.getvalue())
 
 if __name__ == "__main__":
     unittest.main()
