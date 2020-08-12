@@ -6,6 +6,7 @@ from models.state import State
 from models.city import City
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import scoped_session
 import os
 
 
@@ -62,7 +63,7 @@ class DBStorage:
         other data base"""
 
         if cls:
-            for state in session.query(State).order_by('id').all():
+            for state in __session.query(State).order_by('id').all():
                 print('{}: {}'.format(state.id, state.name))
 
         # key = <class-name>.<object-id>
