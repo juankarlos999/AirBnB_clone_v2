@@ -9,6 +9,7 @@ from models import storage
 
 Base = declarative_base()
 
+
 class BaseModel:
     """A base class for all hbnb models"""
     # This is for SQLAlchemy
@@ -18,11 +19,8 @@ class BaseModel:
         DateTime,
         nullable=False,
         default=datetime.utcnow())
-
-    updated_at = Column('updated_at',
-        DateTime,
-        nullable=False,
-        default=datetime.utcnow())
+    updated_at = Column('updated_at', DateTime, nullable=False,
+                        default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
