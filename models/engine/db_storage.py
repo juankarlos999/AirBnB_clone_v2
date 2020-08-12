@@ -4,29 +4,31 @@ from sqlalchemy.engine.url import URL
 from models.base_model import Base
 from models.state import State
 from models.city import City
-
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+import os
 
 class DBStorage:
-"""This is for manage the enginee """
-__engine = None
-__session = None
+    """This is for manage the enginee """
+    __engine = None
+    __session = None
 
-def __init__(self):
-        """ Init the variable to init the enginee """"
+    def __init__(self):
+        """ Init the variable to init the enginee """
         # Retrive variables
         db_connect = {
-            'drivername': 'mysqldb',
-            'username': os.getenv('HBNB_MYSQL_USER')
-            'password': os.getenv('HBNB_MYSQL_PWD')
-            'host': os.getenv('HBNB_MYSQL_HOST')
+            'drivername': 'mysql',
+            'username': os.getenv('HBNB_MYSQL_USER'),
+            'password': os.getenv('HBNB_MYSQL_PWD'),
+            'host': os.getenv('HBNB_MYSQL_HOST'),
             'database': os.getenv('HBNB_MYSQL_DB')
         }
 
-        self.__engine = create_engine(URL(**db_uri), pool_pre_ping=True)
+        self.__engine = create_engine(URL(**db_connect), pool_pre_ping=True)
+
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
-        else:
-            Base.metadata.create_all(self.__engine)
+
 
     def reload(self):
         """ create all tables in the database and
@@ -35,11 +37,10 @@ def __init__(self):
 
         # all classes who inherit from Base
         # must be imported before calling Base.metadata.create_all(engine)
-        Session_m = sessionmaker(expire_on_commit=False)
+        Session_m = sessionmaker(bind=self.__engine, expire_on_commit=False)
         # autoflush=True
         Base.metadata.create_all(self.__engine)
 
-        Session_m.configure(bind=engine)
         Session = scoped_session(Session_m)
         self.__session = Session()
 
@@ -59,6 +60,7 @@ def __init__(self):
     def all(self, cls=None):
         """ This method is for retrive information from
         other data base"""
+
         if cls:
             for state in session.query(State).order_by('id').all():
                 print('{}: {}'.format(state.id, state.name))
