@@ -5,12 +5,7 @@ from models.base_model import Base
 from models.state import State
 from models.city import City
 from sqlalchemy import create_engine
-<<<<<<< HEAD
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import scoped_session
-=======
 from sqlalchemy.orm import (sessionmaker, scoped_session)
->>>>>>> 3a9750311e925624f90a6474266ff1255b83d2a3
 import os
 
 
@@ -67,15 +62,10 @@ class DBStorage:
         other data base"""
 
         if cls:
-<<<<<<< HEAD
-            for state in __session.query(State).order_by('id').all():
-                print('{}: {}'.format(state.id, state.name))
-
-=======
             for state in session.query(cls).order_by('id').all():
                 print('{}: {}'.format(cls.id, cls.name))
         else:
             return {}
->>>>>>> 3a9750311e925624f90a6474266ff1255b83d2a3
+
         # key = <class-name>.<object-id>
         # value = object
