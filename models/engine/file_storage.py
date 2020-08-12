@@ -14,7 +14,7 @@ class FileStorage:
             new_dict = {}
             for value in FileStorage.__objects:
                 # why in this not use isinstace?
-                if cls == type(FileStorage.__objects[value]):
+                if cls == isinstance(FileStorage, value):
                     new_dict[value] = FileStorage.__objects[value]
             return new_dict
         return FileStorage.__objects

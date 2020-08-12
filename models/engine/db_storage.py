@@ -8,6 +8,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
 
+
 class DBStorage:
     """This is for manage the enginee """
     __engine = None
@@ -28,7 +29,6 @@ class DBStorage:
 
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
-
 
     def reload(self):
         """ create all tables in the database and
@@ -67,4 +67,3 @@ class DBStorage:
 
         # key = <class-name>.<object-id>
         # value = object
-
