@@ -39,21 +39,20 @@ class Place(BaseModel, Base):
         viewonly=False)
 
 
-@property
-def reviews(self):
-    """getter attribute returns the list of Review instances
-    """
-    all_reviews = models.storage.all(Review)
-    review = [review for review in all_reviews if review.place_id == self.id]
-    return review
+    @property
+    def reviews(self):
+        """getter attribute returns the list of Review instances
+        """
+        all_reviews = models.storage.all(Review)
+        result = [review for review in all_reviews if review.place_id == self.id]
+        return result
 
 
-@property
-def amenities(self):
-    """getter attribute returns the list of Amenity instances
-    """
-    from models.amenity import Amenity
-    all_amenities = models.storage.all(Amenity)
-    amenity = [amenaty for amenaty in all_amenities
-               if amenity.place_id == self.id]
-    return amenity
+    @property
+    def amenities(self):
+        """getter attribute returns the list of Amenity instances
+        """
+        from models.amenity import Amenity
+        all_amenities = models.storage.all(Amenity)
+        result = [amty for amty in all_amenities if amty.place_id == self.id]
+        return result
