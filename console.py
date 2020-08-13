@@ -37,7 +37,6 @@ class HBNBCommand(cmd.Cmd):
 
     def precmd(self, line):
         """Reformat command line for advanced command syntax.
-
         Usage: <class name>.<command>([<id> [<*args> or <**kwargs>]])
         (Brackets denote optional fields in usage example.)
         """
@@ -160,11 +159,7 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[args[0]]()
         print(new_instance.id)
         new_instance.__dict__.update(**become_dict)
-        storage.save()
-
-        # variable = eval("{}(**become_dict)".format(args[0]))
-        # print(variable)
-        # variable.save()
+        new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -237,23 +232,16 @@ class HBNBCommand(cmd.Cmd):
         print("Destroys an individual instance of a class")
         print("[Usage]: destroy <className> <objectId>\n")
 
-    def do_all(self, args):
-        """ Shows all objects, or all objects of a class"""
-        print_list = []
+    def do_all(self, kika):
+        """Prints all string representation of all instances based or not
+        on the class name. Ex: $ all BaseModel or $ all"""
+        if len(kika) == 0:
+            print([str(v) for v in storage.all().values()])
 
-        if args:
-            args = args.split(' ')[0]  # remove possible trailing args
-            if args not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-                return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+        elif kika not in self.classes:
+            print('** class doesn\'t exist **')
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
-
-        print(print_list)
+            print([str(v) for k, v in storage.all().items() if kika in k])
 
     def help_all(self):
         """ Help information for the all command """
