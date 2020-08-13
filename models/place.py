@@ -3,26 +3,17 @@
 import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import (Column, String, Integer, Float, ForeignKey, Table)
+from sqlalchemy import Table
 from sqlalchemy.orm import relationship
 from os import getenv
 from models.review import Review
 
 
-# Add an instance of SQLAlchemy Table called place_amenity
-# for creating the relationship Many-To-Many between Place and Amenity:
-class Place_amenity(Base):
-    __tablename__ = "place_amenity"
-    place_id = Column(
-        String(60),
-        ForeignKey('places.id'),
-        nullable=False,
-        primary_key=True)
-    amenity_id = Column(
-        String(60),
-        ForeignKey('amenities.id'),
-        nullable=False,
-        primary_key=True)
-
+place_amenity = Table('association', Base.metadata,
+                      Column('places.id', Integer, ForeignKey('places.id')),
+                      Column('amenities.id', Integer,
+                             ForeignKey('amenities.id'))
+                      )
 
 
 class Place(BaseModel, Base):
@@ -42,24 +33,26 @@ class Place(BaseModel, Base):
     amenities = relationship(
         "Amenity",
         secondary="place_amenity",
-	viewonly=False,
+        viewonly=False,
         backref="place_amenities",
-	cascade="all, delete")
+        cascade="all, delete")
 
-    @property
-    def reviews(self):
-        """getter attribute returns the list of Review instances
-        """
 
-        all_reviews = models.storage.all(Review)
-        review = [review for review in all_reviews if review.place_id == self.id]
-        return review
+@property
+def reviews(self):
+    """getter attribute returns the list of Review instances
+    """
+    all_reviews = models.storage.all(Review)
+    review = [review for review in all_reviews if review.place_id == self.id]
+    return review
 
-    @property
-    def amenities(self):
-        """getter attribute returns the list of Amenity instances
-        """
-        from models.amenity import Amenity
-        all_amenities = models.storage.all(Amenity)
-        amenity = [amenaty for amenaty in all_amenities if amenity.place_id == self.id]
-        return amenity
+
+@property
+def amenities(self):
+    """getter attribute returns the list of Amenity instances
+    """
+    from models.amenity import Amenity
+    all_amenities = models.storage.all(Amenity)
+    amenity = [amenaty for amenaty in all_amenities
+               if amenity.place_id == self.id]
+    return amenity
