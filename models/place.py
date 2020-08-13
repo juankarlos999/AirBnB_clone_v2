@@ -10,14 +10,17 @@ from models.review import Review
 
 
 place_amenity = Table('association', Base.metadata,
-                      Column('places.id', Integer, ForeignKey('places.id')),
-                      Column('amenities.id', Integer,
-                             ForeignKey('amenities.id'))
+                      Column('places.id', String(60), ForeignKey('places.id'),
+                             primary_key=True, nullable=False),
+                      Column('amenities.id', String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True, nullable=False)
                       )
 
 
 class Place(BaseModel, Base):
     """ Is a class to hold a place """
+
     __tablename__ = 'places'
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
