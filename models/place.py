@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 import models
+from models.amenity import Amenity
 from models.base_model import BaseModel, Base
 from sqlalchemy import (Column, String, Integer, Float, ForeignKey, Table)
 from sqlalchemy import Table
@@ -14,8 +15,7 @@ place_amenity = Table('association', Base.metadata,
                              primary_key=True, nullable=False),
                       Column('amenities.id', String(60),
                              ForeignKey('amenities.id'),
-                             primary_key=True, nullable=False)
-                      )
+                             primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -33,26 +33,30 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     reviews = relationship("Review", backref="place", cascade="all, delete")
-    amenities = relationship(
-        "Amenity",
-        secondary=place_amenity,
-        viewonly=False)
-
+    amenities = relationship("Amenity", secondary=place_amenity,
+                             viewonly=False)
 
     @property
     def reviews(self):
         """getter attribute returns the list of Review instances
         """
         all_reviews = models.storage.all(Review)
-        result = [review for review in all_reviews if review.place_id == self.id]
+        result = [review for review in all_reviews
+                  if review.place_id == self.id]
         return result
-
 
     @property
     def amenities(self):
         """getter attribute returns the list of Amenity instances
         """
-        from models.amenity import Amenity
         all_amenities = models.storage.all(Amenity)
         result = [amty for amty in all_amenities if amty.place_id == self.id]
         return result
+
+    @amenities.setter
+    def amenities(self, amenity_):
+            """
+            Setter attribute amenities
+            """
+            if isinstance(amenity_, models.Amenity):
+                self.amenities.append(amenity_obj.id)
