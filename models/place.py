@@ -58,5 +58,5 @@ class Place(BaseModel, Base):
             """
             Setter attribute amenities
             """
-            if isinstance(amenity_, models.Amenity):
-                self.amenities.append(amenity_obj.id)
+            if isinstance(amenity_, Amenity):
+                self.amenities.append(amenity_.id)
