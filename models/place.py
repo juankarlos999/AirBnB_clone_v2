@@ -9,7 +9,7 @@ from os import getenv
 from models.review import Review
 
 
-place_amenity = Table('association', Base.metadata,
+place_amenity = Table('place_amenity', Base.metadata,
                       Column('places.id', String(60), ForeignKey('places.id'),
                              primary_key=True, nullable=False),
                       Column('amenities.id', String(60),
