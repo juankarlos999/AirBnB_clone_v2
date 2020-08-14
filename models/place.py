@@ -19,7 +19,6 @@ place_amenity = Table('association', Base.metadata,
 
 class Place(BaseModel, Base):
     """ Is a class to hold a place """
- 
     amenity_ids = []
     __tablename__ = 'places'
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
@@ -44,7 +43,7 @@ class Place(BaseModel, Base):
             """
             all_reviews = models.storage.all(Review)
             amenity_ids = [review for review in all_reviews
-                      if review.place_id == self.id]
+                           if review.place_id == self.id]
             return amenity_ids
 
         @property
@@ -52,10 +51,10 @@ class Place(BaseModel, Base):
             """getter attribute returns the list of Amenity instances
             """
             from models.amenity import Amenity
+
             result = []
-            all_amenities = models.storage.all().items()
-            for key, val in all_amenities:
-                if  val.__class__.__name__ == "Amenity":
+            for key, val in models.storage.all().items():
+                if val.__class__.__name__ == "Amenity":
                     if val.place_id == self.id:
                         result.append(val)
             return result
