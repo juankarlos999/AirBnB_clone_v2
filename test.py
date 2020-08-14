@@ -28,10 +28,10 @@ all_states = fs.all()
 # print()
 # print()
 for value in all_states:
-     if "User.0304ffa6-3e3f-4679-b262-83d46d7f8d84" == all_states[value]:
-          del(all_states[value])
-          fs.save()
-          break
+    if "User.0304ffa6-3e3f-4679-b262-83d46d7f8d84" == all_states[value]:
+        del(all_states[value])
+        fs.save()
+        break
 
 # print()
 # print()

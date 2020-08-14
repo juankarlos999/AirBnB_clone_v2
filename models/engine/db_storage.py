@@ -4,7 +4,6 @@ from sqlalchemy.engine.url import URL
 from sqlalchemy import create_engine
 from sqlalchemy.orm import (sessionmaker, scoped_session)
 import os
-
 from models.user import User
 from models.place import Place
 from models.base_model import Base
@@ -12,7 +11,6 @@ from models.city import City
 from models.state import State
 from models.amenity import Amenity
 from models.review import Review
-
 
 
 class DBStorage:
@@ -68,7 +66,8 @@ class DBStorage:
         other data base
         query on the current database session (self.__session)
         all objects depending of the class name (argument cls)
-        if cls=None, query all types of objects (User, State, City, Amenity, Place and Review)
+        if cls=None, query all types of objects (User, State, City, Amenity,
+        Place and Review)
         this method must return a dictionary: (like FileStorage)"""
         result = {}
         if cls:
