@@ -11,12 +11,12 @@ content="<html>
 
 location="        location \/hbnb_static/ { alias /data/web_static/current/; }"
 
-sudo apt-get -y update
+sudo apt-get update
 sudo apt-get -y install nginx
 
 mkdir -p /data/web_static/shared/
 mkdir -p /data/web_static/releases/test/
-echo "$content" >/data/web_static/releases/test/index.html
+echo "$content" | sudo tee /data/web_static/releases/test/index.html
 ln -sfn /data/web_static/current /data/web_static/releases/test/
 chown -R ubuntu:ubuntu /data
 
