@@ -24,30 +24,19 @@ import os
 # fs.new(new_state)
 # fs.save()
 
-# all_states = fs.all()
-# # print(all_states)
-# # print()
-# # print()
-# for value in all_states:
-#      if "User.0304ffa6-3e3f-4679-b262-83d46d7f8d84" == all_states[value]:
-#           del(all_states[value])
-#           fs.save()
-#           break
+all_states = fs.all()
+# print(all_states)
+# print()
+# print()
+for value in all_states:
+    if "User.0304ffa6-3e3f-4679-b262-83d46d7f8d84" == all_states[value]:
+        del(all_states[value])
+        fs.save()
+        break
 
 # print()
 # print()
 # print(all_states)
 
-a = {'name': 'cartel de cali'}
-
-
-# Fruits = {'a': "Apple", 'b':"Banana", 'c':"Carrot"}
-# key_to_lookup = 'a'
-# if key_to_lookup in Fruits:
-#   print("Key exists")
-# else:
-#   print("Key does not exist")
-
-
-print(os.getenv('HBNB_MYSQL_PWD'))
-print(os.environ.get('HBNB_MYSQL_PWD'))
+co = HBNBCommand()
+co.onecmd("create User")

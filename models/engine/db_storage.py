@@ -1,20 +1,16 @@
 #!/usr/bin/python3
 """ Make your code running without knowing how it’s stored. """
 from sqlalchemy.engine.url import URL
-from models.base_model import Base
-from models.state import State
-from models.city import City
 from sqlalchemy import create_engine
 from sqlalchemy.orm import (sessionmaker, scoped_session)
 import os
-
 from models.user import User
 from models.place import Place
-from models.state import State
+from models.base_model import Base
 from models.city import City
+from models.state import State
 from models.amenity import Amenity
 from models.review import Review
-
 
 
 class DBStorage:
@@ -70,17 +66,18 @@ class DBStorage:
         other data base
         query on the current database session (self.__session)
         all objects depending of the class name (argument cls)
-        if cls=None, query all types of objects (User, State, City, Amenity, Place and Review)
+        if cls=None, query all types of objects (User, State, City, Amenity,
+        Place and Review)
         this method must return a dictionary: (like FileStorage)"""
-
+        result = {}
         if cls:
-            for state in session.query(cls).all():
-                print('{}: {}'.format(state.name))
+            for value in self.__session.query(cls).all():
+                key = (type(value).__name__ + '.' + value.id)
+                result[key] = value
         else:
-            a = [User, State, City, Amenity, Place, Review]
-            for state in session.query(User, State).all():
-                print(state)
-        # key = <class-name>.<object-id>
-        # value = object
-
-        return {}
+            classes = [State, City, User, Place, Review, Amenity]
+            for clas in classes:
+                for value in self.__session.query(clas).all():
+                    key = (type(value).__name__ + '.' + value.id)
+                    result[key] = value
+        return result
