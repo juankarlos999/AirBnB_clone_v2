@@ -25,7 +25,6 @@ class State(BaseModel, Base):
             """This function: getter attribute cities that returns the list of
             City instances with state_id equals to the current State.id => It
             will be the FileStorage relationship between State and"""
-            city_list = []
             all_cities = models.storage.all(City)
             result = [city for city in all_cities if city.state_id == self.id]
             return result
