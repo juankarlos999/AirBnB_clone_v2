@@ -1,41 +1,53 @@
 #!/usr/bin/python3
 """ Test delete feature
 """
-from models.engine.file_storage import FileStorage
-from models.state import State
-from models.user import User
-from console import HBNBCommand
-fs = FileStorage()
+import os
+# from models.engine.file_storage import FileStorage
+# from models.state import State
+# from models.user import User
+# from console import HBNBCommand
+# fs = FileStorage()
 
 
-# new_dict = {}
+# # new_dict = {}
+# # all_states = fs.all()
+# # for value in all_states:
+# #      # why in this not use isinstace?
+# #      if State == type(all_states[value]):
+# #           new_dict[value] = all_states[value]
+
+
+# # print(new_dict)
+
+# new_state = User()
+# new_state.name = "Pen"
+# fs.new(new_state)
+# fs.save()
+
 # all_states = fs.all()
+# # print(all_states)
+# # print()
+# # print()
 # for value in all_states:
-#      # why in this not use isinstace?
-#      if State == type(all_states[value]):
-#           new_dict[value] = all_states[value]
-
-
-# print(new_dict)
-
-new_state = User()
-new_state.name = "Pen"
-fs.new(new_state)
-fs.save()
-
-all_states = fs.all()
-# print(all_states)
-# print()
-# print()
-for value in all_states:
-     if "User.0304ffa6-3e3f-4679-b262-83d46d7f8d84" == all_states[value]:
-          del(all_states[value])
-          fs.save()
-          break
+#      if "User.0304ffa6-3e3f-4679-b262-83d46d7f8d84" == all_states[value]:
+#           del(all_states[value])
+#           fs.save()
+#           break
 
 # print()
 # print()
 # print(all_states)
 
-co = HBNBCommand()
-co.onecmd("create User")
+a = {'name': 'cartel de cali'}
+
+
+# Fruits = {'a': "Apple", 'b':"Banana", 'c':"Carrot"}
+# key_to_lookup = 'a'
+# if key_to_lookup in Fruits:
+#   print("Key exists")
+# else:
+#   print("Key does not exist")
+
+
+print(os.getenv('HBNB_MYSQL_PWD'))
+print(os.environ.get('HBNB_MYSQL_PWD'))

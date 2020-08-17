@@ -1,4 +1,4 @@
-#Airbnb
+# Airbnb
 The goal of the project is to deploy in the server a simple copy of the AirBnB website.
 This repository contains the initial stage of a student project to build a clone of the AirBnB website. This stage implements a backend interface, or console, to manage program data. Console commands allow the user to create, update, and destroy objects, as well as manage file storage. Using a system of JSON serialization/deserialization, storage is persistent between sessions.
 ![A image how works the console in non interactive](final.png)
@@ -6,15 +6,19 @@ This repository contains the initial stage of a student project to build a clone
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-start
-------------------------------------------------------------------
+## start
+
+This is how the structure is:
+![The architecture](AirBnb_DB_diagramm.jpg)
+
+
 The following instructions will allow you to obtain a copy of the local project for development and testing purposes
 
 
 ### Pre-requisite
 To run the next project you need to have a `python version of 3.7`
 
-## Installation 
+## Installation
 For the installation of this project follow the following steps:
 
 Run the following command on your terminal.
