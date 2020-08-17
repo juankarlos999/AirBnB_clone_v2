@@ -12,10 +12,10 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls:
             new_dict = {}
-            for value in FileStorage.__objects:
-                # why in this not use isinstace?
-                if cls == type(FileStorage.__objects[value]):
-                    new_dict[value] = FileStorage.__objects[value]
+            for key, value in FileStorage.__objects.items():
+                tmp = key.split('.')
+                if tmp[0] == cls.__name__:
+                    new_dict.update({key: value})
             return new_dict
         return FileStorage.__objects
 
