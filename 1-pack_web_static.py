@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Automate the service on the server """
 from datetime import datetime
-from fabric.api import (local, hide)
+from fabric.api import (local, hide, settings)
 
 
 def do_pack():
@@ -9,19 +9,27 @@ def do_pack():
     of the web_static folder of your AirBnB Clone
     repo, using the function do_pack """
     # file is the name of the file it will compress
-    files = datetime.now().strftime("versions/web_static_%Y%m%d%H%M%S.tgz")
-    with hide('output', 'running'):
-        local('mkdir versions')
+    with settings(warn_only=True):
+        files = datetime.now().strftime("versions/web_static_%Y%m%d%H%M%S.tgz")
+        with hide('output', 'running'):
+            command = local('mkdir versions')
 
-    print('Packing web_static to {} web_static'.format(files))
+        if command.return_code != 0:
+            return None
 
-    # with hide('stdout', 'running'):
-    local('tar -cvzf {} web_static'.format(files))
+        print('Packing web_static to {} web_static'.format(files))
 
-    with hide('output', 'running'):
-        size = local("wc -c {}".format(files), capture=True)
-        size = size.stdout.split()[0]
+        # with hide('stdout', 'running'):
+        command = local('tar -cvzf {} web_static'.format(files))
 
-    print("web_static packed: {} -> {}Bytes".format(files, size))
+        if command.return_code != 0:
+            return None
 
-    return files
+        with hide('output', 'running'):
+            size = local("wc -c {}".format(files), capture=True)
+            if size.return_code != 0:
+                return None
+            size = size.stdout.split()[0]
+
+        print("web_static packed: {} -> {}Bytes".format(files, size))
+        return files
