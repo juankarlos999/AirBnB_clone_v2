@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """ Automate the service on the server """
 from datetime import datetime
 from fabric.api import *
