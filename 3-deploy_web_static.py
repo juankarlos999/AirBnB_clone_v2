@@ -58,9 +58,9 @@ def deploy():
     """
     Fabric script that creates and distributes an archive to a web server
     """
-    file_path = do_pack()
+    archive_path = do_pack()
 
-    if not file_path:
+    if not archive_path:
         return False
 
     return do_deploy(archive_path)
